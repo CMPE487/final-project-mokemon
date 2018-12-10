@@ -3,5 +3,7 @@ from socket import *
 host = gethostbyname(gethostname())
 port = 5002
 username = "dummy"
-disc_pck_size = 1024
-server_conn = None
+DISCOVER_TIMEOUT = 1
+BUFFER_SIZE = 1024
+server_sock = None
+currentState = None
