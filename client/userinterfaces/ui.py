@@ -19,6 +19,9 @@ class UI(ABC):
   @abstractmethod
   def showRoom(self,title,creatorName):
     pass
+  @abstractmethod
+  def getActionRoom(self):
+    pass
   
   @abstractmethod
   def showListRooms(self):

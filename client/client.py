@@ -71,6 +71,8 @@ def server_listener(s,ui):
           title = roomInfo[1]
           creatorName = roomInfo[2]
           ui.notificationListRooms(creatorIP,title,creatorName)
+      elif message[0] == "readyNotification":
+        ui.readyNotification(message[1])
       else:
         print("data: ",data)
   except Exception as e:
@@ -131,7 +133,8 @@ while(True):
   elif currentState == State.InRoom:
     if extras["prevState"] == State.CreateRoom:
       # creator
-      action = ui.showRoom(extras["title"],username)
+      ui.showRoom(extras["title"],username)
+      action = ui.getActionRoom()
       if action == "ready":
         # TODO consider unready
         # send ready message
@@ -150,7 +153,8 @@ while(True):
       roomTitle = extras["title"]
       # TODO improve this logic
       # TODO send message to check creator ready 
-      action = ui.showRoom(roomTitle,roomCreatorName)
+      ui.showRoom(roomTitle,roomCreatorName)
+      action = ui.getActionRoom()
       if action == "ready":
         # TODO consider unready
         # send ready message
@@ -161,10 +165,19 @@ while(True):
         # TODO send remove room message
         print("send remove room message")
         currentState = State.ActionList
-      pass
     elif extras["prevState"] == State.InRoom:
       # TODO comes after ready?
-      print("in room again")
+      action = ui.getActionRoom()
+      if action == "ready":
+        # TODO consider unready
+        # send ready message
+        print("send message ready")
+        message = "ready;"+host+";"+"creator"
+        server_sock.send(str.encode(message))
+      elif action == "/back":
+        # TODO send remove room message
+        print("send remove room message")
+        currentState = State.ActionList
       pass
     # update prevState
     extras["prevState"] = State.InRoom
@@ -179,7 +192,7 @@ while(True):
       continue
     roomCreatorId, roomTitle, roomCreatorName = roomMessage
     # join room
-    message = "joinRoom;" + roomCreatorId
+    message = "joinRoom;" + roomCreatorId + ";" + username
     server_sock.send(str.encode(message))
     # set current state
     currentState = State.InRoom

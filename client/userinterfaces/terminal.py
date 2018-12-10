@@ -38,6 +38,8 @@ class Terminal(UI):
 
   def showRoom(self,title,creatorName):
     print("Room: "+title+" Created By: "+creatorName)
+  
+  def getActionRoom(self):
     action = ""
     while True:
       action = input("Write ready. (/back)\n")
