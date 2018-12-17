@@ -4,7 +4,7 @@ from threading import Thread
 from components import *
 
 HOST = socket.gethostbyname(socket.gethostname())
-TCP_PORT = 5002
+TCP_PORT = 5000
 BUFFER_SIZE = 1024
 threads = []
 rooms = {}
@@ -73,6 +73,7 @@ def handle_client(conn,addr):
 def main():
   try:
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+      s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
       s.bind((HOST, TCP_PORT))
       s.listen(50)
       while True:
@@ -83,6 +84,7 @@ def main():
         threads.append(t)
         t.start()
   except Exception as e:
+    print("Socket is closed!")
     s.close()
     traceback.print_exc()
 

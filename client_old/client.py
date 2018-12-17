@@ -37,7 +37,7 @@ def connect_to_server():
   ip = ".".join(arr)
   threads = []
   # TODO for i in range(2, 254):
-  for i in range(10, 11):
+  for i in range(63, 64):
     req_ip = ip + "." + str(i)
     # if req_ip == host:
     # 	continue
@@ -57,7 +57,8 @@ def server_listener(s,ui):
       current = s.recv(BUFFER_SIZE)
       if current == b'':
         # client connection is lost
-        print("server connection is lost")
+        print("Server connection is lost!")
+        s.close()
         break
       data = data + current.decode("utf-8")
       message = data.split(";")
