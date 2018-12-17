@@ -32,16 +32,17 @@ class MainPage(tk.Frame):
     self._tournamentList.pack()
     self._tournamentList.bind('<<ListboxSelect>>', self.tournamentClick)
     self.getUsername()
+    self._master.sendToServer("mainscreen")
 
   # create room button click event
   def createRoom(self):
     roomTitle = self._master._username + "'s Room"
     if self._roomTitle.get() != "":
-      print("room title not empty")
       roomTitle = self._roomTitle.get()
     message = "createRoom;"+roomTitle+";"+self._master._username
     self._master.sendToServer(message)
-    self._master.switch_frame(InRoom)
+    self._master.switch_frame(InRoom,{"playerType": "creator"})
+  
   # room list item select event
   def roomClick(self,event):
     try:
@@ -65,7 +66,7 @@ class MainPage(tk.Frame):
   # get username from user
   def getUsername(self):
     while self._master._username == "" or self._master._username == None:
-      self._master._username = simpledialog.askstring("Input", "Enter Username", parent=self)
+      self._master._username = simpledialog.askstring("Mokemon", "Enter Username", parent=self)
     # print(self._master._username)
   
   # add new room

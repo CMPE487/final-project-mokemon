@@ -8,6 +8,20 @@ TCP_PORT = 5000
 BUFFER_SIZE = 1024
 threads = []
 rooms = {}
+mainScreenUsers = []
+
+def sendRoomNotification(r):
+  message = "listRooms;"+r.getListString()
+  for wConn in mainScreenUsers:
+    wConn.sendall(str.encode(message))
+
+def sendAllRoomNotification(conn):
+  print("sendall room")
+  print(rooms)
+  message = "listRooms"
+  for roomID,room in rooms.items():
+    message = message +";"+ room.getListString()
+  conn.sendall(str.encode(message))
 
 def handle_client(conn,addr):
   while True:
@@ -24,9 +38,15 @@ def handle_client(conn,addr):
       if message[0]=="discover":
         conn.sendall(str.encode("server;"+HOST))
       elif message[0]=="createRoom":
+        mainScreenUsers.remove(conn)
         r = Room(message[1],addr[0],message[2],conn)
         r.setCreatorConnection(conn)
         rooms[addr[0]] = r
+        # send notification to users in main screen
+        sendRoomNotification(r)
+      elif message[0] == "mainscreen":
+        mainScreenUsers.append(conn)
+        sendAllRoomNotification(conn)
       elif message[0] == "ready":
         creatorIP = message[1]
         playerType = message[2]
