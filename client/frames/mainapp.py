@@ -20,6 +20,8 @@ class MainApp(tk.Tk):
     if self._frame is not None:
       self._frame.destroy()
     self._frame = new_frame
+    if hasattr(self._frame, 'updateAfterLoad'):
+      self._frame.updateAfterLoad()
     self._frame.pack()
   
   def sendToServer(self,message):

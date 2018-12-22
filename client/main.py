@@ -10,28 +10,23 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 clientIp = socket.gethostbyname(socket.gethostname())
 app = None
-
+  
 def listenServer():
+  global app
   while True:
     try:
       data = ""
       current = s.recv(1024)
       if not current:
-        print("break")
+        print("Server is down!")
         break
       data = current.decode("utf-8")
       print(type(app._frame).__name__)
       print("data received: ",data)
       # handle messages 
-      if type(app._frame).__name__ == "MainPage":
-        message = data.split(";")
-        if message[0]=="listRooms":
-          for room in message[1:]:
-            roomInfo = room.split("#")
-            creatorIP = roomInfo[0]
-            title = roomInfo[1]
-            creatorName = roomInfo[2]
-            app._frame.addRoom(creatorIP,title,creatorName)
+      message = data.split(";")
+      if hasattr(app._frame, 'listener'):
+        app._frame.listener(message)
     except Exception as e:
       traceback.print_exc()
 

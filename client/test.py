@@ -1,5 +1,13 @@
 from tkinter import *
 from tkinter import simpledialog
+from collections import OrderedDict
+# a = OrderedDict()
+# a["asd"] = (1,23)
+# a["dsa"] = (0,24)
+# print(dir(a))
+# a.pop()
+# print(a[list(a.keys())[0]])
+# exit()
 def inp():
     global inpt
     number=inpt.get()
@@ -34,7 +42,7 @@ def onselect(evt):
     index = int(w.curselection()[0])
     value = w.get(index)
     print('You selected item %d: "%s"' % (index, value))
-    lb.delete(0, 0)
+    lb.delete(0)
 
 lb = Listbox(root, name='lb')
 lb.pack()

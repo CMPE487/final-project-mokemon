@@ -8,7 +8,6 @@ class Room():
     self.creatorReady = False
     self.participantReady = False
     self.full = False
-    self.participantConnection = conn
     self.participantConnection = None
   
   # returns the room info for listRooms
@@ -32,3 +31,10 @@ class Room():
     self.participantName = participantName
     self.participantIP = participantIP
     self.participantConnection = conn
+  
+  # participant left the room
+  def participantLeft(self):
+    self.full = False
+    self.participantName = ""
+    self.participantIP = ""
+    self.participantConnection = None
