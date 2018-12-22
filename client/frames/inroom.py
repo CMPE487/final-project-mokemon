@@ -51,7 +51,7 @@ class InRoom(tk.Frame):
   
   # ready button click event
   def readyClick(self):
-    # TODO ready unready switch
+    # ready unready switch
     if self._playerType == "creator":
       if self._player1Name["text"].endswith(' | Ready'):
         self._player1Name["text"] = self._player1Name["text"][:-8]
@@ -68,7 +68,6 @@ class InRoom(tk.Frame):
         self.readyButton["text"] = "Unready"
     message = "ready;"+self._master._ip+";"+self._playerType
     self._master.sendToServer(message)
-    # TODO update ui
 
   # update player2Name
   def playerCame(self,player2Name):

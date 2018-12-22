@@ -92,6 +92,7 @@ def handle_client(conn,addr):
         # send join info to creator
         m = "joinInfo;"+rooms[creatorIP].participantName
         rooms[creatorIP].creatorConnection.sendall(str.encode(m))
+        mainScreenUsers.remove(conn)
         # send clients in mainscreen to remove this room
         message = "removeRoom;"+creatorIP
         for wConn in mainScreenUsers:
