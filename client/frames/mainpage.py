@@ -12,9 +12,11 @@ class MainPage(tk.Frame):
     self._label = tk.Label(self, text="Welcome to Mokemon!")
     self._label.pack(side="top", fill="x", pady=10)
     # create room
+    self.getUsername()
     tk.Label(self,text="Room Title: ").pack()
-    self._roomTitle = tk.Entry(self, width=35)
-    self._roomTitle.pack()
+    self._roomTitle = tk.StringVar(self, value=self._master._username + "'s Room")
+    self._roomTitleEntry = tk.Entry(self, width=35, textvariable=self._roomTitle)
+    self._roomTitleEntry.pack()
     tk.Button(self, text="Create Room",
               command=lambda: self.createRoom()).pack()
     # create tournament
@@ -33,7 +35,6 @@ class MainPage(tk.Frame):
     self._tournamentList = tk.Listbox(self, name='tournamentListb')
     self._tournamentList.pack()
     self._tournamentList.bind('<<ListboxSelect>>', self.tournamentClick)
-    self.getUsername()
 
   # updates after frame change
   def updateAfterLoad(self):
@@ -41,9 +42,7 @@ class MainPage(tk.Frame):
     
   # create room button click event
   def createRoom(self):
-    roomTitle = self._master._username + "'s Room"
-    if self._roomTitle.get() != "":
-      roomTitle = self._roomTitle.get()
+    roomTitle = self._roomTitle.get()
     message = "createRoom;"+roomTitle+";"+self._master._username
     self._master.sendToServer(message)
     self._master.switch_frame(InRoom,{"playerType": "creator","title": roomTitle})
