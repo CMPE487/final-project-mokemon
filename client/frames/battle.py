@@ -1,43 +1,57 @@
 import traceback
 import tkinter as tk
 import frames.mainpage as mpage
+import os
 class Battle(tk.Frame):
   def __init__(self, master,args=None):
-    tk.Frame.__init__(self, master)
+    tk.Frame.__init__(self, master)  
     self._master = master
     # battle id
     self._battleKey = args["battleKey"]
     self._side = args["side"]
     self._opponentName = args["opponentName"]
     # opponent info
-    tk.Label(self,text="Opponent: "+args["opponentName"]).pack()
-    self._opponentMonsterNameLabel = tk.Label(self,text="-")
-    self._opponentMonsterNameLabel.pack()
-    self._opponentMonsterHPLabel = tk.Label(self,text="-")
-    self._opponentMonsterHPLabel.pack()
+    tk.Label(self,text="Opponent: "+args["opponentName"]).grid(row = 0, column = 0, columnspan = 12, sticky = 'W')#, sticky = 'S'
+    self._opponentMonsterNameLabel = tk.Label(self,text="-", width = 10, bg = "blue")
+    self._opponentMonsterNameLabel.grid(row = 1, column = 6, columnspan = 2, sticky = 'EN')
+    self._opponentMonsterImage = tk.PhotoImage(file = "./client/resources/licky.gif")
+    self._opponentMonsterImageLabel = tk.Label(self, image = self._opponentMonsterImage, width = 256, bg = "cyan")
+    self._opponentMonsterImageLabel.photo = self._opponentMonsterImage
+    self._opponentMonsterImageLabel.grid(row = 1, column = 8, columnspan = 4, sticky = 'EW')
+    self._opponentMonsterHPLabel = tk.Label(self,text="-", width = 10, bg = "red")
+    self._opponentMonsterHPLabel.grid(row = 5, column = 6, columnspan = 6, sticky = 'E')
     self.updateMonsterInfo("opponent",args["opponentInfo"])
     # monster info
-    self._monsterNameLabel = tk.Label(self,text="-")
-    self._monsterNameLabel.pack()
-    self._monsterHPLabel = tk.Label(self,text="-")
-    self._monsterHPLabel.pack()
+    self._monsterHPLabel = tk.Label(self,text="-", width = 10, bg = "red")
+    self._monsterHPLabel.grid(row = 6, column = 0, columnspan = 6, sticky = 'W')
+    self._monsterImage = tk.PhotoImage(file = "./client/resources/licky_back.gif")
+    self._monsterImageLabel = tk.Label(self, image = self._monsterImage, width = 256, bg = "cyan")
+    self._monsterImageLabel.photo = self._monsterImage
+    self._monsterImageLabel.grid(row = 7, column = 0, columnspan = 4, rowspan = 4, sticky = 'EW')
+    self._monsterNameLabel = tk.Label(self, text="-", width = 10, bg = "blue")
+    self._monsterNameLabel.grid(row = 10, column = 4, columnspan = 2, sticky = 'WS')
     self.updateMonsterInfo("my",args["monsterInfo"])
-    tk.Label(self,text=self._master._username).pack()
+    # tk.Label(self,text=self._master._username).pack()
     # action is not selected if true, otherwise false
     self._isActive = True
     self._statusLabelActiveText = "Select an action"
     self._statusLabelWaitingText = "Waiting for your opponent action"
     self._statusLabel = tk.Label(self,text=self._statusLabelActiveText)
-    self._statusLabel.pack()
+    self._statusLabel.grid(row = 12, column = 0, columnspan = 6, sticky = 'EW')
     # get action names
     actionNames = args["actionNames"].split("#")
-    tk.Button(self, text=actionNames[0],command=lambda: self.action("0")).pack()
-    tk.Button(self, text=actionNames[1],command=lambda: self.action("1")).pack()
-    tk.Button(self, text=actionNames[2],command=lambda: self.action("2")).pack()
-    tk.Button(self, text="Return to main page",
-              command=lambda: master.switch_frame(mpage.MainPage)).pack()
-    self._logLabel = tk.Label(self,text="Logs:\n")
-    self._logLabel.pack()
+    self._firstActionButton = tk.Button(self, text=actionNames[0], width = 10)
+    self._firstActionButton.bind("<Button-1>", lambda event: self.action("0"))
+    self._firstActionButton.grid(row = 11, column = 0, columnspan = 2)#, sticky = 'S'
+    self._secondActionButton = tk.Button(self, text=actionNames[1], width = 10)
+    self._secondActionButton.bind("<Button-1>", lambda event: self.action("1"))
+    self._secondActionButton.grid(row = 11, column = 2, columnspan = 2)#, sticky = 'S'
+    self._thirdActionButton = tk.Button(self, text=actionNames[2], width = 10)
+    self._thirdActionButton.bind("<Button-1>", lambda event: self.action("2"))
+    self._thirdActionButton.grid(row = 11, column = 4, columnspan = 2)#, sticky = 'S'
+    ## tk.Button(self, text="Return to main page", command=lambda: master.switch_frame(mpage.MainPage)).pack()
+    self._logLabel = tk.Label(self,text="Logs:\n", width = 40, bg = "green", relief = tk.SUNKEN, bd = 5)
+    self._logLabel.grid(row = 0, column = 12, columnspan = 6, rowspan = 11, sticky = 'N')
 
   def updateMonsterInfo(self,side,monsterInfo):
     info = monsterInfo.split("#")
@@ -48,7 +62,7 @@ class Battle(tk.Frame):
       self._monsterNameLabel["text"] = info[0]
       self._monsterHPLabel["text"] = "HP: "+info[1]+"/"+info[2]
 
-  def action(self,actionId):
+  def action(self, actionId):
     if self._isActive:
       self._isActive = False
       self._statusLabel["text"] = self._statusLabelWaitingText

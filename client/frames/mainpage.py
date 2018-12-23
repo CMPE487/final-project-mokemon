@@ -44,7 +44,7 @@ class MainPage(tk.Frame):
     self._master.sendToServer("mainscreen")
     
   # create room button click event
-  def createRoom(self):
+  def createRoom(self, event):
     roomTitle = self._master._username + "'s Room"
     if self._roomTitle.get() != "":
       roomTitle = self._roomTitle.get()
