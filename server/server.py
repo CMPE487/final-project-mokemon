@@ -155,10 +155,17 @@ def handle_client(conn,addr):
           if rooms[creatorIP].full:
             rooms[creatorIP].participantConnection.sendall(b"leaveRoom")
           rooms.pop(creatorIP, None)
+          # remove room message
+          message = "removeRoom;"+creatorIP
+          for wConn in mainScreenUsers:
+            wConn.sendall(str.encode(message))
         else:
-          # send room available
           pConn = rooms[creatorIP].participantConnection
+          # send message to creator
+          message = "participantLeft;"
+          rooms[creatorIP].creatorConnection.sendall(str.encode(message))
           rooms[creatorIP].participantLeft()
+          # send room available
           sendRoomNotification(rooms[creatorIP])
           pConn.sendall(b"leaveRoom")
       elif message[0]=="status":
