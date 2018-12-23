@@ -5,7 +5,7 @@ from components import *
 from monsters import *
 
 HOST = socket.gethostbyname(socket.gethostname())
-# HOST = "46.101.195.117"
+# HOST = "46.101.195.117"
 print(HOST)
 TCP_PORT = 5000
 BUFFER_SIZE = 1024
@@ -34,7 +34,7 @@ def handle_client(conn,addr):
       data = ""
       current = conn.recv(BUFFER_SIZE)
       if current == b'':
-        # TODO do necessary actions
+        # TODO do necessary actions connection lost (rage quit)
         # client connection is lost
         print("exit", addr)
         break
@@ -49,7 +49,7 @@ def handle_client(conn,addr):
         mainScreenUsers.remove(conn)
         r = Room(message[1],message[3],message[2],conn)
         r.setCreatorConnection(conn)
-        rooms[addr[0]] = r
+        rooms[message[3]] = r
         # send notification to users in main screen
         sendRoomNotification(r)
       elif message[0] == "mainscreen":
@@ -102,7 +102,8 @@ def handle_client(conn,addr):
         else:
           # send ready message
           if playerType == "creator":
-            rooms[creatorIP].participantConnection.sendall(str.encode(readyMessage))
+            if rooms[creatorIP].full:
+              rooms[creatorIP].participantConnection.sendall(str.encode(readyMessage))
           else:
             rooms[creatorIP].creatorConnection.sendall(str.encode(readyMessage))
       elif message[0] == "battle":
@@ -117,13 +118,17 @@ def handle_client(conn,addr):
           # send update message
           for i in range(2):
             message = "turnUpdate;" + \
-              battles[creatorIP]._players[i].getCurrentMonsterInfo() + ";" + \
-              battles[creatorIP]._players[1-i].getCurrentMonsterInfo()+ ";" + \
+              battles[battleKey]._players[i].getCurrentMonsterInfo() + ";" + \
+              battles[battleKey]._players[1-i].getCurrentMonsterInfo()+ ";" + \
               str(winner) + ";" +log
-            battles[creatorIP].sendToPlayer(i,message)
+            battles[battleKey].sendToPlayer(i,message)
           # winner then remove battle
           if winner != -1:
             battles.pop(creatorIP,None)
+      elif message[0] == "battleLeft":
+        battleKey = message[1]
+        side = message[2]
+        battles[battleKey].sendToPlayer(1-int(side),"battleLeft")
       elif message[0] == "listRooms":
         # list only not full rooms
         print("listRooms",addr)
@@ -137,7 +142,8 @@ def handle_client(conn,addr):
         # participant join room message
         creatorIP = message[1]
         participantName = message[2]
-        rooms[creatorIP].setParticipantInfo(participantName, addr[0], conn)
+        participantIp = message[3]
+        rooms[creatorIP].setParticipantInfo(participantName, participantIp, conn)
         rooms[creatorIP].full = True
         # send join info to creator
         m = "joinInfo;"+rooms[creatorIP].participantName
@@ -147,6 +153,10 @@ def handle_client(conn,addr):
         message = "removeRoom;"+creatorIP
         for wConn in mainScreenUsers:
           wConn.sendall(str.encode(message))
+      elif message[0] == "roomInfo":
+        creatorIp = message[1]
+        if rooms[creatorIp].creatorReady:
+          rooms[creatorIp].participantConnection.sendall(b"readyNotification")
       elif message[0] == "leaveRoom":
         playerType = message[1]
         creatorIP = message[2]
@@ -155,10 +165,17 @@ def handle_client(conn,addr):
           if rooms[creatorIP].full:
             rooms[creatorIP].participantConnection.sendall(b"leaveRoom")
           rooms.pop(creatorIP, None)
+          # remove room message
+          message = "removeRoom;"+creatorIP
+          for wConn in mainScreenUsers:
+            wConn.sendall(str.encode(message))
         else:
-          # send room available
           pConn = rooms[creatorIP].participantConnection
+          # send message to creator
+          message = "participantLeft;"
+          rooms[creatorIP].creatorConnection.sendall(str.encode(message))
           rooms[creatorIP].participantLeft()
+          # send room available
           sendRoomNotification(rooms[creatorIP])
           pConn.sendall(b"leaveRoom")
       elif message[0]=="status":

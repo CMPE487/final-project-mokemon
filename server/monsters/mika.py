@@ -10,24 +10,25 @@ class Mika():
     self._currentHP = self._maxHP
     self._actions = [self.attack1,self.attack2,self.attack3]
 
+  def generateLog(self,attackId,damage,opponentName,opponentHP):
+    return self._name + "used "+ self._attackNames[attackId] +" and dealt "+ str(damage) \
+      + " damage to " + opponentName + " and "+ str(opponentHP)+ " HP left.\n"
+
   def attack1(self,monster):
-    print("attack 1")
+    attackId = 0
     damage = max(self._attack - monster._armor,0)
     monster._currentHP = max(monster._currentHP-damage,0)
-    return self._name + " dealt "+ str(damage) + " damage to " + \
-      monster._name + " and "+ str(monster._currentHP)+ " HP left.\n"
+    return self.generateLog(attackId,damage,monster._name,monster._currentHP)
   
   def attack2(self,monster):
-    print("attack 2")
+    attackId = 1
     damage = max(self._attack - monster._armor,0)
     monster._currentHP = max(monster._currentHP-damage,0)
-    return self._name + " dealt "+ str(damage) + " damage to " + \
-      monster._name + " and "+ str(monster._currentHP)+ " HP left.\n"
+    return self.generateLog(attackId,damage,monster._name,monster._currentHP)
   
   def attack3(self,monster):
-    print("attack 3")
+    attackId = 2
     damage = max(self._attack - monster._armor,0)
     damage = 1001
     monster._currentHP = max(monster._currentHP-damage,0)
-    return self._name + " dealt "+ str(damage) + " damage to " + \
-      monster._name + " and "+ str(monster._currentHP)+ " HP left.\n"
+    return self.generateLog(attackId,damage,monster._name,monster._currentHP)

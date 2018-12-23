@@ -53,6 +53,11 @@ class Battle(tk.Frame):
     self._logLabel = tk.Label(self,text="Logs:\n", width = 40, bg = "green", relief = tk.SUNKEN, bd = 5)
     self._logLabel.grid(row = 0, column = 12, columnspan = 6, rowspan = 11, sticky = 'N')
 
+  def backPressed(self):
+    message = "battleLeft;"+self._battleKey+";"+self._side
+    self._master.sendToServer(message)
+    self._master.switch_frame(mpage.MainPage)
+
   def updateMonsterInfo(self,side,monsterInfo):
     info = monsterInfo.split("#")
     if side == "opponent":
@@ -69,6 +74,14 @@ class Battle(tk.Frame):
       message = "battle;"+self._battleKey+";"+self._side+";"+actionId
       self._master.sendToServer(message)
 
+  def declareVictory(self,left=False):
+    message = "You have defeated " + self._opponentName + "!"
+    if left:
+      message = "Opponent Left!\n" + message
+    tk.messagebox.showinfo("Congratulations",message)
+  def admitDefeat(self):
+    tk.messagebox.showinfo("...","You have been defeated by " + self._opponentName + "!")
+  
   # listener for Battle
   def listener(self,message):
     if message[0]=="turnUpdate":
@@ -84,11 +97,10 @@ class Battle(tk.Frame):
       if winner != -1:
         side = int(self._side)
         if winner == side:
-          tk.messagebox.showinfo("Congratulations","You have defeated " + self._opponentName + "!")
+          self.declareVictory()
         elif winner == 1-side:
-          tk.messagebox.showinfo("...","You have been defeated by " + self._opponentName + "!")
+          self.admitDefeat()
         self._master.switch_frame(mpage.MainPage)
-      # TODO back
-      # connection lost
-      # already ready
-    
+    elif message[0] == "battleLeft":
+      self.declareVictory(left=True)
+      self._master.switch_frame(mpage.MainPage)
