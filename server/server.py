@@ -13,7 +13,7 @@ threads = []
 rooms = {}
 battles = {}
 mainScreenUsers = []
-monsterList = [Mika(),]
+monsterList = [Mika(),Dragonub()]
 
 def sendRoomNotification(r):
   message = "listRooms;"+r.getListString()
@@ -98,9 +98,9 @@ def handle_client(conn,addr):
           else:
             rooms[creatorIP].creatorConnection.sendall(str.encode(readyMessage))
       elif message[0] == "monsterList":
-        m = "monsterList;"
+        m = "monsterList"
         for monster in monsterList:
-          m += monster._name + "#" + monster._description
+          m += ";" +monster._name + "#" + monster._description
         conn.sendall(str.encode(m))
       elif message[0] == "monsterSelect":
         battleKey = message[1]

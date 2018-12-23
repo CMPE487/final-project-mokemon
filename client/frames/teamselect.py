@@ -1,6 +1,8 @@
 import tkinter as tk
 import frames.mainpage as mpage
 from frames.battle import *
+from functools import partial
+
 class TeamSelect(tk.Frame):
   def __init__(self, master,args=None):
     tk.Frame.__init__(self, master)
@@ -20,6 +22,7 @@ class TeamSelect(tk.Frame):
     self._master.sendToServer(message)
   
   def monsterSelect(self,monsterId):
+    print(monsterId)
     if not self._monsterSelected:
       self._monsterSelected = True
       self._statusLabel["text"] = self._statusLabelWaitingText
@@ -29,11 +32,13 @@ class TeamSelect(tk.Frame):
   # listener for InRoom
   def listener(self,message):
     if message[0]=="monsterList":
+      self._monsterIdList = []
       for i,monster in enumerate(message[1:]):
         info = monster.split("#")
         tk.Label(self, text=info[0]).pack() # name
         tk.Label(self, text=info[1]).pack() # description
-        tk.Button(self, text="Ready", command=lambda: self.monsterSelect(str(i))).pack() # pokemon select
+        tk.Button(self, text="Select", command=lambda i=i: self.monsterSelect(str(i))).pack() # pokemon select
+      i = 5
     elif message[0]=="initBattle":
       # battle key
       bKey = message[1]

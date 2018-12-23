@@ -11,6 +11,7 @@ class Battle(tk.Frame):
     self._side = args["side"]
     self._opponentName = args["opponentName"]
     # opponent info
+    # TODO image names
     tk.Label(self,text="Opponent: "+args["opponentName"]).grid(row = 0, column = 0, columnspan = 12, sticky = 'W')#, sticky = 'S'
     self._opponentMonsterNameLabel = tk.Label(self,text="-", width = 10, bg = "blue")
     self._opponentMonsterNameLabel.grid(row = 1, column = 6, columnspan = 2, sticky = 'EN')
@@ -98,10 +99,8 @@ class Battle(tk.Frame):
       if winner != -1:
         side = int(self._side)
         if winner == side:
-          print("winner")
           self.declareVictory()
         elif winner == 1-side:
-          print("loser")
           self.admitDefeat()
         self._master.switch_frame(mpage.MainPage)
     elif message[0] == "battleLeft":
