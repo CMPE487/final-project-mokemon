@@ -11,6 +11,9 @@ class Player():
   def getCurrentMonster(self):
     return self._team[0]
 
+  def getCurrentMonsterCurrentHP(self):
+    return self._team[0]._currentHP
+
   # returns log
   def action(self,actionId,monster):
     return self._team[0]._actions[actionId](monster)

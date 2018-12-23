@@ -27,6 +27,7 @@ class Mika():
   def attack3(self,monster):
     print("attack 3")
     damage = max(self._attack - monster._armor,0)
+    damage = 1001
     monster._currentHP = max(monster._currentHP-damage,0)
     return self._name + " dealt "+ str(damage) + " damage to " + \
       monster._name + " and "+ str(monster._currentHP)+ " HP left.\n"

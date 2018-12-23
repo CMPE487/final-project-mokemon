@@ -22,7 +22,7 @@ class Battle():
   def turnUpdate(self):
     # check which action is first
     order = [1, 0]
-    log = ""
+    log = "Turn " + str(self._turn._number) + "\n"
     if self._players[0].getCurrentMonsterSpeed() > \
       self._players[1].getCurrentMonsterSpeed():
       order = [0, 1]
@@ -30,8 +30,16 @@ class Battle():
       log += self._players[current].action(self._turn._actionIdList[current], \
         self._players[1-current].getCurrentMonster())
     self.newTurn()
-    return log
+    winner = self.checkBattleEnd()
+    return log, winner
 
+  def checkBattleEnd(self):
+    winner = -1
+    for i in range(2):
+      if self._players[i].getCurrentMonsterCurrentHP()<=0:
+        winner = 1-i
+    return winner
+    
   def newTurn(self):
     self._turn._number += 1
     self._turn._actionReceived = [False, False]
@@ -42,6 +50,6 @@ class Battle():
     
   class Turn():
     def __init__(self):
-      self._number = 0
+      self._number = 1
       self._actionReceived = [False, False]
       self._actionIdList = [0,0]

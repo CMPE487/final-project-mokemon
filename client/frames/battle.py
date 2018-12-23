@@ -8,6 +8,7 @@ class Battle(tk.Frame):
     # battle id
     self._battleKey = args["battleKey"]
     self._side = args["side"]
+    self._opponentName = args["opponentName"]
     # opponent info
     tk.Label(self,text="Opponent: "+args["opponentName"]).pack()
     self._opponentMonsterNameLabel = tk.Label(self,text="-")
@@ -59,14 +60,21 @@ class Battle(tk.Frame):
     if message[0]=="turnUpdate":
       monsterInfo = message[1]
       opponentInfo = message[2]
+      winner = int(message[3])
+      log = message[4]
       self.updateMonsterInfo("my",monsterInfo)
       self.updateMonsterInfo("opponent",opponentInfo)
-      log = message[3]
       self._logLabel["text"] += log
       self._isActive = True
       self._statusLabel["text"] = self._statusLabelActiveText
-      # TODO announce winner 
-      # already ready 
-      # back
-      # connection lost      
+      if winner != -1:
+        side = int(self._side)
+        if winner == side:
+          tk.messagebox.showinfo("Congratulations","You have defeated " + self._opponentName + "!")
+        elif winner == 1-side:
+          tk.messagebox.showinfo("...","You have been defeated by " + self._opponentName + "!")
+        self._master.switch_frame(mpage.MainPage)
+      # TODO back
+      # connection lost
+      # already ready
     

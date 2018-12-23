@@ -102,9 +102,11 @@ class InRoom(tk.Frame):
       monsterInfo = message[3]
       actionNames = message[4]
       opponentInfo = message[5]
-      opponentName = self._player1Name["text"][:-8]
+      opponentName = self._player1Name["text"]
       if self._playerType == "creator":
-        opponentName = self._player2Name["text"][:-8]
+        opponentName = self._player2Name["text"]
+      if opponentName.endswith(' | Ready'):
+        opponentName = opponentName[:-8]
       self._master.switch_frame(Battle,{
         "battleKey": bKey,
         "side": side,
