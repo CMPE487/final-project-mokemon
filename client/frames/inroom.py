@@ -93,6 +93,10 @@ class InRoom(tk.Frame):
       self._master.switch_frame(mpage.MainPage)
     elif message[0]=="participantLeft":
       self._player2Name["text"] = " - "
+    elif message[0]=="selectTeam":
+      bKey = message[1]
+      side = message[2]
+      
     elif message[0]=="initBattle":
       # battle key
       bKey = message[1]
