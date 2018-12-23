@@ -13,7 +13,7 @@ class Dragonub():
     self._actions = [self.attack1,self.attack2,self.attack3]
 
   def generateLog(self,attackId,damage,opponentName,opponentHP):
-    return self._name + "used "+ self._attackNames[attackId] +" and dealt "+ str(damage) \
+    return self._name + " used "+ self._attackNames[attackId] +" and dealt "+ str(damage) \
       + " damage to " + opponentName + " and "+ str(opponentHP)+ " HP left.\n"
 
   def attack1(self,monster):

@@ -1,5 +1,6 @@
 import traceback
 import tkinter as tk
+from tkinter import messagebox
 import frames.mainpage as mpage
 import os
 class Battle(tk.Frame):
@@ -42,13 +43,13 @@ class Battle(tk.Frame):
     # get action names
     actionNames = args["actionNames"].split("#")
     self._firstActionButton = tk.Button(self, text=actionNames[0], width = 10)
-    self._firstActionButton.bind("<Button-1>", lambda event: self.action("0"))
+    self._firstActionButton.bind("<ButtonRelease>", lambda event: self.action("0"))
     self._firstActionButton.grid(row = 11, column = 0, columnspan = 2)#, sticky = 'S'
     self._secondActionButton = tk.Button(self, text=actionNames[1], width = 10)
-    self._secondActionButton.bind("<Button-1>", lambda event: self.action("1"))
+    self._secondActionButton.bind("<ButtonRelease>", lambda event: self.action("1"))
     self._secondActionButton.grid(row = 11, column = 2, columnspan = 2)#, sticky = 'S'
     self._thirdActionButton = tk.Button(self, text=actionNames[2], width = 10)
-    self._thirdActionButton.bind("<Button-1>", lambda event: self.action("2"))
+    self._thirdActionButton.bind("<ButtonRelease>", lambda event: self.action("2"))
     self._thirdActionButton.grid(row = 11, column = 4, columnspan = 2)#, sticky = 'S'
     ## tk.Button(self, text="Return to main page", command=lambda: master.switch_frame(mpage.MainPage)).pack()
     self._logLabel = tk.Label(self,text="Logs:\n", width = 40, bg = "green", relief = tk.SUNKEN, bd = 5)
@@ -75,14 +76,15 @@ class Battle(tk.Frame):
       message = "battle;"+self._battleKey+";"+self._side+";"+actionId
       self._master.sendToServer(message)
 
-  def declareVictory(self,left=False):
+  def declareVictory(self,left):
     message = "You have defeated " + self._opponentName + "!"
     if left:
       message = "Opponent Left!\n" + message
-    tk.messagebox.showinfo("Congratulations",message)
+    messagebox.showinfo("Congratulations",message)
+
   def admitDefeat(self):
-    m = "You have been defeated by " + self._opponentName + "!"
-    tk.messagebox.showinfo("...",m)
+    message = "You have been defeated by " + self._opponentName + "!"
+    messagebox.showinfo("You Lost",message)
   
   # listener for Battle
   def listener(self,message):
@@ -99,10 +101,13 @@ class Battle(tk.Frame):
       if winner != -1:
         side = int(self._side)
         if winner == side:
-          self.declareVictory()
-        elif winner == 1-side:
+          print("winner")
+          self.declareVictory(False)
+        else:
+          print("loser")
           self.admitDefeat()
+          pass
         self._master.switch_frame(mpage.MainPage)
     elif message[0] == "battleLeft":
-      self.declareVictory(left=True)
+      self.declareVictory(True)
       self._master.switch_frame(mpage.MainPage)
