@@ -84,7 +84,7 @@ def handle_client(conn,addr):
           battles[creatorIP] = Battle(r.title)
           battles[creatorIP].setPlayer1(r.creatorName,r.creatorIP,r.creatorConnection)
           battles[creatorIP].setPlayer2(r.participantName,r.participantIP,r.participantConnection)
-          # TODO team select
+          # team select
           for i in range(2):
             m = "selectTeam;" + creatorIP + ";"+str(i)
             battles[creatorIP].sendToPlayer(i,m)
@@ -112,8 +112,10 @@ def handle_client(conn,addr):
           for i in range(2):
             m = "initBattle;" + battleKey + ";"+str(i)+";" + \
               battles[battleKey]._players[i].getCurrentMonsterInfo() + ";" + \
+              battles[battleKey]._players[i].getCurrentMonsterImage("back") + ";" + \
               battles[battleKey]._players[i].getCurrentMonsterActionList() + ";" + \
               battles[battleKey]._players[1-i].getCurrentMonsterInfo() + ";" + \
+              battles[battleKey]._players[1-i].getCurrentMonsterImage("front") + ";" + \
               battles[battleKey]._players[1-i]._name
             battles[battleKey].sendToPlayer(i,m)
       elif message[0] == "battle":

@@ -15,6 +15,11 @@ class Player():
   def getCurrentMonsterCurrentHP(self):
     return self._team[0]._currentHP
 
+  def getCurrentMonsterImage(self,position):
+    if position == "back":
+      return self._team[0]._imageBack
+    return self._team[0]._image
+
   # returns log
   def action(self,actionId,monster):
     return self._team[0]._actions[actionId](monster)

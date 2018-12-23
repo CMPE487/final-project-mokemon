@@ -44,14 +44,18 @@ class TeamSelect(tk.Frame):
       bKey = message[1]
       side = message[2]
       monsterInfo = message[3]
-      actionNames = message[4]
-      opponentInfo = message[5]
-      opponentName = message[6]
+      monsterImage = message[4]
+      actionNames = message[5]
+      opponentInfo = message[6]
+      opponentImage = message[7]
+      opponentName = message[8]
       self._master.switch_frame(Battle,{
         "battleKey": bKey,
         "side": side,
         "monsterInfo": monsterInfo,
+        "monsterImage": monsterImage,
         "actionNames": actionNames,
         "opponentInfo": opponentInfo,
+        "opponentImage": opponentImage,
         "opponentName": opponentName
         })

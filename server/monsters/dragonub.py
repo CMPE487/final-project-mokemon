@@ -3,6 +3,8 @@ class Dragonub():
     self._name = "Dragonub"
     self._description = "Dragoooo gono nub"
     self._attackNames = ["Normal","Dharo", "Pharo"]
+    self._image = "licky.gif"
+    self._imageBack = "licky_back.gif"
     self._attack = 25
     self._armor = 10
     self._maxHP = 100
