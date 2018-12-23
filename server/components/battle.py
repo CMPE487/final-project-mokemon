@@ -15,6 +15,9 @@ class Battle():
     side = int(side)
     self._turn._actionReceived[side] = True
     self._turn._actionIdList[side] = int(actionId)
+  
+  def checkTeamsSelected(self):
+    return len(self._players[0]._team)>0 and len(self._players[1]._team)>0
 
   def sendToPlayer(self,playerId,message):
     self._players[playerId]._conn.sendall(str.encode(message))

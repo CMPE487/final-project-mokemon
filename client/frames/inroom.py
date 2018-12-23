@@ -1,6 +1,7 @@
 import tkinter as tk
 import frames.mainpage as mpage
 from frames.battle import *
+from frames.teamselect import TeamSelect
 class InRoom(tk.Frame):
   def __init__(self, master,args=None):
     tk.Frame.__init__(self, master)
@@ -96,7 +97,10 @@ class InRoom(tk.Frame):
     elif message[0]=="selectTeam":
       bKey = message[1]
       side = message[2]
-      
+      self._master.switch_frame(TeamSelect,{
+        "battleKey": bKey,
+        "side": side,
+        })
     elif message[0]=="initBattle":
       # battle key
       bKey = message[1]

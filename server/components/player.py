@@ -3,7 +3,8 @@ class Player():
     self._name = name
     self._ip = ip
     self._conn = conn
-  
+    self._team = []
+    
   def setTeam(self,team):
     # [monster1,..]
     self._team = team

@@ -14,7 +14,7 @@ class Battle(tk.Frame):
     tk.Label(self,text="Opponent: "+args["opponentName"]).grid(row = 0, column = 0, columnspan = 12, sticky = 'W')#, sticky = 'S'
     self._opponentMonsterNameLabel = tk.Label(self,text="-", width = 10, bg = "blue")
     self._opponentMonsterNameLabel.grid(row = 1, column = 6, columnspan = 2, sticky = 'EN')
-    self._opponentMonsterImage = tk.PhotoImage(file = "./client/resources/licky.gif")
+    self._opponentMonsterImage = tk.PhotoImage(file = "./resources/licky.gif")
     self._opponentMonsterImageLabel = tk.Label(self, image = self._opponentMonsterImage, width = 256, bg = "cyan")
     self._opponentMonsterImageLabel.photo = self._opponentMonsterImage
     self._opponentMonsterImageLabel.grid(row = 1, column = 8, columnspan = 4, sticky = 'EW')
@@ -24,7 +24,7 @@ class Battle(tk.Frame):
     # monster info
     self._monsterHPLabel = tk.Label(self,text="-", width = 10, bg = "red")
     self._monsterHPLabel.grid(row = 6, column = 0, columnspan = 6, sticky = 'W')
-    self._monsterImage = tk.PhotoImage(file = "./client/resources/licky_back.gif")
+    self._monsterImage = tk.PhotoImage(file = "./resources/licky_back.gif")
     self._monsterImageLabel = tk.Label(self, image = self._monsterImage, width = 256, bg = "cyan")
     self._monsterImageLabel.photo = self._monsterImage
     self._monsterImageLabel.grid(row = 7, column = 0, columnspan = 4, rowspan = 4, sticky = 'EW')
@@ -80,7 +80,8 @@ class Battle(tk.Frame):
       message = "Opponent Left!\n" + message
     tk.messagebox.showinfo("Congratulations",message)
   def admitDefeat(self):
-    tk.messagebox.showinfo("...","You have been defeated by " + self._opponentName + "!")
+    m = "You have been defeated by " + self._opponentName + "!"
+    tk.messagebox.showinfo("...",m)
   
   # listener for Battle
   def listener(self,message):
@@ -97,8 +98,10 @@ class Battle(tk.Frame):
       if winner != -1:
         side = int(self._side)
         if winner == side:
+          print("winner")
           self.declareVictory()
         elif winner == 1-side:
+          print("loser")
           self.admitDefeat()
         self._master.switch_frame(mpage.MainPage)
     elif message[0] == "battleLeft":

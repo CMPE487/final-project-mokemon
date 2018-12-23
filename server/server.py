@@ -13,6 +13,7 @@ threads = []
 rooms = {}
 battles = {}
 mainScreenUsers = []
+monsterList = [Mika(),]
 
 def sendRoomNotification(r):
   message = "listRooms;"+r.getListString()
@@ -85,25 +86,8 @@ def handle_client(conn,addr):
           battles[creatorIP].setPlayer2(r.participantName,r.participantIP,r.participantConnection)
           # TODO team select
           for i in range(2):
-            message = "selectTeam;" + creatorIP + ";"+str(i)+";" +
-              battles[creatorIP]._players[i].getCurrentMonsterInfo() + ";" +
-              battles[creatorIP]._players[i].getCurrentMonsterActionList() + ";" +
-              battles[creatorIP]._players[1-i].getCurrentMonsterInfo()
-            battles[creatorIP].sendToPlayer(i,message)
-          # TODO come here
-          battles[creatorIP]._players[0].setTeam([Mika()])
-          battles[creatorIP]._players[1].setTeam([Mika()])
-          # send init battle message
-          messages = []
-          for i in range(2):
-            messages.append("initBattle;" + creatorIP + ";"+str(i)+";" +
-              battles[creatorIP]._players[i].getCurrentMonsterInfo() + ";" +
-              battles[creatorIP]._players[i].getCurrentMonsterActionList() + ";" +
-              battles[creatorIP]._players[1-i].getCurrentMonsterInfo())
-          # creator - player[0]
-          rooms[creatorIP].creatorConnection.sendall(str.encode(messages[0]))
-          # participant - player[1]
-          rooms[creatorIP].participantConnection.sendall(str.encode(messages[1]))
+            m = "selectTeam;" + creatorIP + ";"+str(i)
+            battles[creatorIP].sendToPlayer(i,m)
           # delete room
           rooms.pop(creatorIP, None)
         else:
@@ -113,6 +97,25 @@ def handle_client(conn,addr):
               rooms[creatorIP].participantConnection.sendall(str.encode(readyMessage))
           else:
             rooms[creatorIP].creatorConnection.sendall(str.encode(readyMessage))
+      elif message[0] == "monsterList":
+        m = "monsterList;"
+        for monster in monsterList:
+          m += monster._name + "#" + monster._description
+        conn.sendall(str.encode(m))
+      elif message[0] == "monsterSelect":
+        battleKey = message[1]
+        side = int(message[2])
+        monsterId = int(message[3])
+        battles[battleKey]._players[side].setTeam([monsterList[monsterId].__class__()])
+        if battles[battleKey].checkTeamsSelected():
+          # send init battle message
+          for i in range(2):
+            m = "initBattle;" + battleKey + ";"+str(i)+";" + \
+              battles[battleKey]._players[i].getCurrentMonsterInfo() + ";" + \
+              battles[battleKey]._players[i].getCurrentMonsterActionList() + ";" + \
+              battles[battleKey]._players[1-i].getCurrentMonsterInfo() + ";" + \
+              battles[battleKey]._players[1-i]._name
+            battles[battleKey].sendToPlayer(i,m)
       elif message[0] == "battle":
         battleKey = message[1]
         side = message[2]
