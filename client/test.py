@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import simpledialog
 from collections import OrderedDict
+a = [False,True]
+print(any(a))
+exit()
 # a = OrderedDict()
 # a["asd"] = (1,23)
 # a["dsa"] = (0,24)
