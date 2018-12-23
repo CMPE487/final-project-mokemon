@@ -47,7 +47,7 @@ def handle_client(conn,addr):
       elif message[0]=="createRoom":
         # create room message
         mainScreenUsers.remove(conn)
-        r = Room(message[1],addr[0],message[2],conn)
+        r = Room(message[1],message[3],message[2],conn)
         r.setCreatorConnection(conn)
         rooms[addr[0]] = r
         # send notification to users in main screen

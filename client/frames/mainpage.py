@@ -44,7 +44,7 @@ class MainPage(tk.Frame):
     roomTitle = self._master._username + "'s Room"
     if self._roomTitle.get() != "":
       roomTitle = self._roomTitle.get()
-    message = "createRoom;"+roomTitle+";"+self._master._username
+    message = "createRoom;"+roomTitle+";"+self._master._username+";"+self._master._ip
     self._master.sendToServer(message)
     self._master.switch_frame(InRoom,{"playerType": "creator","title": roomTitle})
   
