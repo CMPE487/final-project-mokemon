@@ -37,7 +37,6 @@ if __name__ == "__main__":
   t.daemon = True
   t.start()
   app.title("Mokemon")
-  app.geometry("600x600")
-  app.focus_set()
+  app.focus_set()  
   app.mainloop()
   s.close()
