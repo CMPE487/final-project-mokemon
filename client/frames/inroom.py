@@ -40,11 +40,10 @@ class InRoom(tk.Frame):
 
   # updates after frame change
   def updateAfterLoad(self):
-    # if args["playerType"] == "participant":
-    #   # get room info
-    #   message = "roomInfo;"+self._creatorIp
-    #   self._master.sendToServer(message)
-    pass
+    # check creator is already ready
+    if self._playerType == "participant":
+      message = "roomInfo;"+self._creatorIp
+      self._master.sendToServer(message)
   
   # ready button click event
   def readyClick(self):

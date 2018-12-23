@@ -60,7 +60,7 @@ class MainPage(tk.Frame):
       value = w.get(index)
       ip = list(self._rooms.keys())[index]
       roomInfo = self._rooms[ip] # (title,creatorName)
-      message = "joinRoom;"+ip+";"+self.master._username
+      message = "joinRoom;"+ip+";"+self.master._username+";"+self.master._ip
       self._master.sendToServer(message)
       self._master.switch_frame(InRoom,{
         "playerType": "participant",
