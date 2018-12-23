@@ -1,6 +1,6 @@
 import tkinter as tk
 import frames.mainpage as mpage
-
+from frames.battle import *
 class InRoom(tk.Frame):
   def __init__(self, master,args=None):
     tk.Frame.__init__(self, master)
@@ -92,3 +92,23 @@ class InRoom(tk.Frame):
       self.playerReady()
     elif message[0]=="leaveRoom":
       self._master.switch_frame(mpage.MainPage)
+    elif message[0]=="initBattle":
+      # battle key
+      bKey = message[1]
+      side = message[2]
+      monsterInfo = message[3]
+      actionNames = message[4]
+      opponentInfo = message[5]
+      opponentName = self._player1Name["text"]
+      if self._playerType == "creator":
+        opponentName = self._player2Name["text"]
+      if opponentName.endswith(' | Ready'):
+        opponentName = opponentName[:-8]
+      self._master.switch_frame(Battle,{
+        "battleKey": bKey,
+        "side": side,
+        "monsterInfo": monsterInfo,
+        "actionNames": actionNames,
+        "opponentInfo": opponentInfo,
+        "opponentName": opponentName
+        })

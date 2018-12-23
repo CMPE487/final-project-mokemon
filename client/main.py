@@ -5,6 +5,7 @@ import socket
 from frames import *
 
 HOST = socket.gethostbyname(socket.gethostname())
+# HOST = "46.101.195.117"
 PORT = 5000
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((HOST, PORT))

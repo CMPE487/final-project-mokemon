@@ -1,6 +1,10 @@
 from tkinter import *
 from tkinter import simpledialog
+from tkinter import messagebox
 from collections import OrderedDict
+# a = [False,True]
+# print(any(a))
+# exit()
 # a = OrderedDict()
 # a["asd"] = (1,23)
 # a["dsa"] = (0,24)
@@ -44,10 +48,16 @@ def onselect(evt):
     print('You selected item %d: "%s"' % (index, value))
     lb.delete(0)
 
+def pressed():
+    messagebox.showinfo("Information","Informative message")
+    print("sda")
+
 lb = Listbox(root, name='lb')
 lb.pack()
 lb.bind('<<ListboxSelect>>', onselect)
 for item in ["one", "two", "three", "four"]:
     lb.insert(END, item)
+
+Button(root, text="Input", command=pressed).pack()
 
 mainloop()

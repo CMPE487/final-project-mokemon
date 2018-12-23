@@ -44,9 +44,11 @@ class MainPage(tk.Frame):
     self._master.sendToServer("mainscreen")
     
   # create room button click event
-  def createRoom(self, event):
-    roomTitle = self._roomTitle.get()
-    message = "createRoom;"+roomTitle+";"+self._master._username
+  def createRoom(self):
+    roomTitle = self._master._username + "'s Room"
+    if self._roomTitle.get() != "":
+      roomTitle = self._roomTitle.get()
+    message = "createRoom;"+roomTitle+";"+self._master._username+";"+self._master._ip
     self._master.sendToServer(message)
     self._master.switch_frame(InRoom,{"playerType": "creator","title": roomTitle})
   
