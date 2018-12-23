@@ -6,10 +6,8 @@ class InRoom(tk.Frame):
     tk.Frame.__init__(self, master)
     self._master = master
     self._playerType = args["playerType"]
-    tk.Label(self, text=args["title"]).pack(side="top", 
-              fill="x", pady=10)
-    tk.Label(self, text="Player 1: ").pack(side="top", 
-              fill="x", pady=10)
+    tk.Label(self, text=args["title"]).grid(row = 0, column = 0, columnspan = 12, rowspan = 2, sticky = 'N')
+    tk.Label(self, text="Player 1: ").grid(row = 2, column = 0, columnspan = 6, sticky = 'E')
     player1Text = self._master._username
     player2Text = " - "
     if self._playerType == "participant":
@@ -18,18 +16,17 @@ class InRoom(tk.Frame):
       self._creatorIp = args["ip"]
       self.creatorName = args["creatorName"]
     self._player1Name = tk.Label(self, text=player1Text)
-    self._player1Name.pack(side="top", fill="x", pady=10)
-    tk.Label(self, text="Player 2: ").pack(side="top", 
-              fill="x", pady=10)
+    self._player1Name.grid(row = 2, column = 6, columnspan = 6, sticky = 'W')
+    tk.Label(self, text="Player 2: ").grid(row = 3, column = 0, columnspan = 6, sticky = 'E')
     self._player2Name = tk.Label(self, text=player2Text)
-    self._player2Name.pack(side="top", fill="x", pady=10)
-    self.readyButton = tk.Button(self, text="Ready",
+    self._player2Name.grid(row = 3, column = 6, columnspan = 6, sticky = 'W')
+    self.readyButton = tk.Button(self, text="Ready", width = 18,
               command=lambda: 
                 self.readyClick())
-    self.readyButton.pack()
-    tk.Button(self, text="Return to main menu",
+    self.readyButton.grid(row = 4, column = 0, columnspan = 6)
+    tk.Button(self, text="Return to main menu", width = 18,
               command=lambda: 
-                self.backButtonPressed()).pack()
+                self.backButtonPressed()).grid(row = 4, column = 6, columnspan = 6)
 
   def backButtonPressed(self):
     # leave - destroy room message

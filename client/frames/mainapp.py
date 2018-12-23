@@ -9,6 +9,7 @@ class MainApp(tk.Tk):
     self._ip = ip
     self._username = None
     self.switch_frame(MainPage)
+
     
   def switch_frame(self, frame_class, args=None):
     """Destroys current frame and replaces it with a new one."""
@@ -22,7 +23,7 @@ class MainApp(tk.Tk):
     self._frame = new_frame
     if hasattr(self._frame, 'updateAfterLoad'):
       self._frame.updateAfterLoad()
-    self._frame.pack()
+    self._frame.grid(row = 0, column = 0, padx = 40, pady = 10)
   
   def sendToServer(self,message):
     self._socket.sendall(str.encode(message))

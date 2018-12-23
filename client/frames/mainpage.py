@@ -10,30 +10,33 @@ class MainPage(tk.Frame):
     self._master = master
     self._rooms = OrderedDict() # ip
     self._label = tk.Label(self, text="Welcome to Mokemon!")
-    self._label.pack(side="top", fill="x", pady=10)
+    self._label.grid(row = 0, column = 0, columnspan = 12, rowspan = 2, sticky = 'N')
     # create room
     self.getUsername()
-    tk.Label(self,text="Room Title: ").pack()
+    tk.Label(self,text="Room Title: ").grid(row = 2, column = 0, columnspan = 4, sticky = 'E')
     self._roomTitle = tk.StringVar(self, value=self._master._username + "'s Room")
-    self._roomTitleEntry = tk.Entry(self, width=35, textvariable=self._roomTitle)
-    self._roomTitleEntry.pack()
-    tk.Button(self, text="Create Room",
-              command=lambda: self.createRoom()).pack()
+    self._roomTitleEntry = tk.Entry(self, textvariable=self._roomTitle)
+    self._roomTitleEntry.grid(row = 2, column = 4,columnspan = 4)
+    self._createRoomButton = tk.Button(self, text="Create Room", width = 14)
+    self._createRoomButton.bind('<Button-1>', self.createRoom)
+    self._createRoomButton.grid(row = 2, column = 8, columnspan = 4, sticky = 'W')
     # create tournament
-    tk.Label(self,text="Tournament Title: ").pack()
-    self._tournamentTitle = tk.Entry(self, width=35)
-    self._tournamentTitle.pack()
-    tk.Button(self, text="Create Tournament",
-              command=lambda: master.switch_frame(InTournament)).pack()
+    tk.Label(self,text="Tournament Title: ").grid(row = 3, column = 0, columnspan = 4, sticky = 'E')
+    self._tournamentTitle = tk.StringVar(self, value=self._master._username + "'s Tournament")
+    self._tournamentTitleEntry = tk.Entry(self, textvariable=self._tournamentTitle)
+    self._tournamentTitleEntry.grid(row = 3, column = 4, columnspan = 4)
+    self._createTournamentButton = tk.Button(self, text="Create Tournament", width = 14)
+    self._createTournamentButton.bind('<Button-1>', lambda event: master.switch_frame(InTournament))
+    self._createTournamentButton.grid(row = 3, column = 8, columnspan = 4, sticky = 'W')
     # room list
-    tk.Label(self,text="Room List: ").pack()
+    tk.Label(self,text="Room List: ").grid(row = 4, column = 0, columnspan = 6)
     self._roomList = tk.Listbox(self, name='roomList')
-    self._roomList.pack()
+    self._roomList.grid(row = 5, column = 0, columnspan = 6)
     self._roomList.bind('<<ListboxSelect>>', self.roomClick)
     # tournament list
-    tk.Label(self,text="Tournament List: ").pack()
+    tk.Label(self,text="Tournament List: ").grid(row = 4, column = 6, columnspan = 6)
     self._tournamentList = tk.Listbox(self, name='tournamentListb')
-    self._tournamentList.pack()
+    self._tournamentList.grid(row = 5, column = 6, columnspan = 6)
     self._tournamentList.bind('<<ListboxSelect>>', self.tournamentClick)
 
   # updates after frame change
@@ -41,7 +44,7 @@ class MainPage(tk.Frame):
     self._master.sendToServer("mainscreen")
     
   # create room button click event
-  def createRoom(self):
+  def createRoom(self, event):
     roomTitle = self._roomTitle.get()
     message = "createRoom;"+roomTitle+";"+self._master._username
     self._master.sendToServer(message)
