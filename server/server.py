@@ -99,8 +99,10 @@ def handle_client(conn,addr):
             rooms[creatorIP].creatorConnection.sendall(str.encode(readyMessage))
       elif message[0] == "monsterList":
         m = "monsterList"
+        ex = ""
         for monster in monsterList:
-          m += ";" +monster._name + "#" + monster._description
+          ex += ";" +monster._name + "#" + monster._description + "#" + monster._image
+        m += ex * 5
         conn.sendall(str.encode(m))
       elif message[0] == "monsterSelect":
         battleKey = message[1]

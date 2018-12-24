@@ -2,6 +2,8 @@ import tkinter as tk
 import frames.mainpage as mpage
 from frames.battle import *
 from functools import partial
+import math
+from PIL import Image, ImageTk
 
 class TeamSelect(tk.Frame):
   def __init__(self, master,args=None):
@@ -13,7 +15,6 @@ class TeamSelect(tk.Frame):
     self._statusLabelActiveText = "Select a monster"
     self._statusLabelWaitingText = "Waiting for your opponent selection"
     self._statusLabel = tk.Label(self,text=self._statusLabelActiveText)
-    
     
   # updates after frame change
   def updateAfterLoad(self):
@@ -33,11 +34,25 @@ class TeamSelect(tk.Frame):
   def listener(self,message):
     if message[0]=="monsterList":
       self._monsterIdList = []
+      self._labels = []
+      rows = int(math.sqrt(len(message)-1))
+      cols = int((len(message)-1)/rows)
+      k = 0
+      l = 0
       for i,monster in enumerate(message[1:]):
         info = monster.split("#")
-        tk.Label(self, text=info[0]).pack() # name
-        tk.Label(self, text=info[1]).pack() # description
-        tk.Button(self, text="Select", command=lambda i=i: self.monsterSelect(str(i))).pack() # pokemon select
+        tk.Label(self, text=info[0]).grid(row = 4*k, column = l) # name
+        tk.Label(self, text=info[1]).grid(row = 4*k+1, column = l) # description
+        icon = ImageTk.PhotoImage(Image.open("./resources/" + info[2] + "/icon.png").copy().convert('RGBA'))
+        print("./resources/" + info[2] + "/icon.png")
+        self._labels.append(tk.Label(self, image=icon)) # icon)
+        self._labels[i].photo = icon
+        self._labels[i].grid(row = 4*k+2, column = l)
+        tk.Button(self, text="Select", command=lambda i=i: self.monsterSelect(str(i))).grid(row = 4*k+3, column = l) # pokemon select
+        l += 1
+        if l == cols:
+          l = 0
+          k += 1
       i = 5
     elif message[0]=="initBattle":
       # battle key
