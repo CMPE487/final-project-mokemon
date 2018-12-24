@@ -15,12 +15,18 @@ class AnimatedGIF(Label, object):
     self._is_running = False
 
     self._frames = []
-    with sorted(os.scandir(path)) as it:
-      for file in it:
-        if not file.name.startswith("icon"):
-          im = Image.open(path + '/' + file)
-          photoframe = ImageTk.PhotoImage(im.copy().convert('RGBA'))
-          self._frames.append(photoframe)
+    # with sorted(os.scandir(path)) as it:
+    #   for file in it:
+    #     if not file.name.startswith("icon"):
+    #       im = Image.open(path + '/' + file)
+    #       photoframe = ImageTk.PhotoImage(im.copy().convert('RGBA'))
+    #       self._frames.append(photoframe)
+    # TODO ask why
+    for file in sorted(os.listdir(path)):
+      if not file.startswith("icon"):      
+        im = Image.open(path + '/' + file)
+        photoframe = ImageTk.PhotoImage(im.copy().convert('RGBA'))
+        self._frames.append(photoframe)
     
     self._last_index = len(self._frames) - 1
     try:

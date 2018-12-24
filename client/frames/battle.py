@@ -33,8 +33,8 @@ class Battle(tk.Frame):
     self.updateMonsterInfo("my",args["monsterInfo"])
     # action is not selected if true, otherwise false
     self._isActive = True
-    self._statusLabelActiveText = "Select an action " + self._master._username
-    self._statusLabelWaitingText = "Waiting for your opponent action"
+    self._statusLabelActiveText = "Select an action, " + self._master._username + "."
+    self._statusLabelWaitingText = "Waiting for your opponent action!"
     self._statusLabel = tk.Label(self,text=self._statusLabelActiveText)
     self._statusLabel.grid(row = 12, column = 0, columnspan = 6, sticky = 'EW')
     # get action names

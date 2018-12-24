@@ -22,11 +22,11 @@ class MainPage(tk.Frame):
     self._createRoomButton.grid(row = 2, column = 8, columnspan = 4, sticky = 'W')
     # create tournament
     tk.Label(self,text="Tournament Title: ").grid(row = 3, column = 0, columnspan = 4, sticky = 'E')
-    self._tournamentTitle = tk.StringVar(self, value=self._master._username + "'s Tournament")
+    self._tournamentTitle = tk.StringVar(self, value="Coming soon")
     self._tournamentTitleEntry = tk.Entry(self, textvariable=self._tournamentTitle)
     self._tournamentTitleEntry.grid(row = 3, column = 4, columnspan = 4)
     self._createTournamentButton = tk.Button(self, text="Create Tournament", width = 14)
-    self._createTournamentButton.bind('<Button-1>', lambda event: master.switch_frame(InTournament))
+    self._createTournamentButton.bind('<Button-1>', lambda event: print("Do not lose your hope!"))
     self._createTournamentButton.grid(row = 3, column = 8, columnspan = 4, sticky = 'W')
     # room list
     tk.Label(self,text="Room List: ").grid(row = 4, column = 0, columnspan = 6)

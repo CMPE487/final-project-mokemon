@@ -44,7 +44,7 @@ class TeamSelect(tk.Frame):
         tk.Label(self, text=info[0]).grid(row = 4*k, column = l) # name
         tk.Label(self, text=info[1]).grid(row = 4*k+1, column = l) # description
         icon = ImageTk.PhotoImage(Image.open("./resources/" + info[2] + "/icon.png").copy().convert('RGBA'))
-        print("./resources/" + info[2] + "/icon.png")
+        # print("./resources/" + info[2] + "/icon.png")
         self._labels.append(tk.Label(self, image=icon)) # icon)
         self._labels[i].photo = icon
         self._labels[i].grid(row = 4*k+2, column = l)
@@ -53,7 +53,6 @@ class TeamSelect(tk.Frame):
         if l == cols:
           l = 0
           k += 1
-      i = 5
     elif message[0]=="initBattle":
       # battle key
       bKey = message[1]

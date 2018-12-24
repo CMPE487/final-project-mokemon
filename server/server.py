@@ -13,7 +13,7 @@ threads = []
 rooms = {}
 battles = {}
 mainScreenUsers = []
-monsterList = [Mika(),Dragonub()]
+monsterList = [Mika(),Dragonub(),AlienCopy()]
 
 def sendRoomNotification(r):
   message = "listRooms;"+r.getListString()
