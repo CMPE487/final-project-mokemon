@@ -16,7 +16,7 @@ class AnimatedGIF(Label, object):
 
     self._frames = []
     for file in sorted(os.listdir(path)):
-      im = Image.open(path + file)
+      im = Image.open(path + '/' + file)
       photoframe = ImageTk.PhotoImage(im.copy().convert('RGBA'))
       self._frames.append(photoframe)
     

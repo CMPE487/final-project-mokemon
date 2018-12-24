@@ -3,8 +3,8 @@ class Mika():
     self._name = "Mika"
     self._description = "Mika mika"
     self._attackNames = ["Normal","Bam", "Dum"]
-    self._image = "licky.gif"
-    self._imageBack = "licky_back.gif"
+    self._image = "licky_front"
+    self._imageBack = "licky_back"
     self._attack = 25
     self._armor = 10
     self._maxHP = 100
