@@ -4,8 +4,8 @@ from threading import Thread
 from components import *
 from monsters import *
 
-HOST = socket.gethostbyname(socket.gethostname())
-# HOST = "46.101.195.117"
+# HOST = socket.gethostbyname(socket.gethostname())
+HOST = "46.101.195.117"
 print(HOST)
 TCP_PORT = 5000
 BUFFER_SIZE = 1024
