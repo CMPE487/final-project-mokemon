@@ -11,6 +11,7 @@ class InRoom(tk.Frame):
     tk.Label(self, text="Player 1: ").grid(row = 2, column = 0, columnspan = 6, sticky = 'E')
     player1Text = self._master._username
     player2Text = " - "
+    self._creatorIp = self._master._ip
     if self._playerType == "participant":
       player1Text = args["creatorName"]
       player2Text = self._master._username
@@ -63,7 +64,7 @@ class InRoom(tk.Frame):
       else:
         self._player2Name["text"] = self._player2Name["text"] + " | Ready"
         self.readyButton["text"] = "Unready"
-    message = "ready;"+self._master._ip+";"+self._playerType
+    message = "ready;"+self._creatorIp+";"+self._playerType
     self._master.sendToServer(message)
 
   # update player2Name
