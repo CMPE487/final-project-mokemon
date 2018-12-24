@@ -7,7 +7,7 @@ class Dragonub():
     self._attackNames = ["Normal","Dharo", "Pharo"]
     self._image = "dragonite_front"
     self._imageBack = "dragonite_back"
-    self._attack = 25
+    self._attack = 40
     self._armor = 10
     self._maxHP = 100
     self._speed = 10

@@ -7,7 +7,7 @@ class AlienCopy():
     self._attackNames = ["Normal","Petrify", "Heartbreak"]
     self._image = "mewtwo_front"
     self._imageBack = "mewtwo_back"
-    self._attack = 25
+    self._attack = 40
     self._armor = 10
     self._maxHP = 100
     self._speed = 10

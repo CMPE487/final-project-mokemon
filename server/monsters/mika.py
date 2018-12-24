@@ -7,7 +7,7 @@ class Mika():
     self._attackNames = ["Normal","Bam", "Dum"]
     self._image = "licky_front"
     self._imageBack = "licky_back"
-    self._attack = 25
+    self._attack = 40
     self._armor = 10
     self._maxHP = 100
     self._speed = 10
